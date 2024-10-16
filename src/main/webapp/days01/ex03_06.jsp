@@ -43,7 +43,10 @@
   <xmp class="code">       
   강사님                    
   </xmp>
-  <!-- <form> -->
+  <!-- <form> : html 주석처리 --> 
+  <%-- *** jsp 주석처리 안하면 서버처리 코딩은 처리된다. 나중에 오류 생길 수 있다.
+   정수 : <input type="text" value='<%= pNum == null ? "" : pNum %>' id="num" name="num" autofocus="autofocus"><br>
+    --%>
   정수 : <input type="text" id="num" name="num" autofocus="autofocus"><br>
   <p id="demo">
   <%  
@@ -62,6 +65,9 @@
   <script>
     $("#num")
       .css("text-align","center")
+       // 이렇게하면 채워서 준다.
+      <%-- .val('<%= pNum %>') --%>
+      .val('${param.num}')
       .on({
     	  "keydown":function (e){
     		  if ( !(e.which >= 48 && e.which <= 57    				 
@@ -82,7 +88,8 @@
     			 location.href = `ex03_06.jsp?num=\${numValue}`;
     		 } // if
     	  }
-      });
+      })
+      .select();
   </script>
 </div> 
 </body>
