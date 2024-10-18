@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,41 +26,20 @@
 </header>
 <div>
   <xmp class="code">
-     [포워딩, 리다이렉트 개념 이해]
-     ex10.jsp
-     ex10_forward.jsp
-     ex10_redirect.jsp
-     ex10_finish.jsp
+  	 [상태관리] - 방법들 : DB, (안배움 : 세션, 쿠키), [input type=hidden] 사용해서 한다.
+     ex03.jsp -> ex03_02.jsp -> ex03_03.jsp
+     이름				주소				이름/나이/주소/연락처 출력
+     나이				연락처
+     [Next] 			[Next]
+     
+     이전 페이지의 값을 현재 페이지에서 어떻게 가져와서 사용할 수 있나?
   </xmp>
   
-  <%
-  	String name = "admin";
-  	int age = 20;
-  %>
-  
-  <%-- 
-  <a href="ex10_redirect.jsp?name=<%= name%>&age=<%= age%>">리다이렉트</a><br>
-  <a href="ex10_forward.jsp?name=<%= name%>&age=<%= age%>">포워딩</a><br>
-   --%>
-   
-   <a href="ex10_redirect.jsp?name=<%= name %>&age=<%= age %>">리다이렉트</a>
-	<%
-		String location = "ex10_redirect.jsp";
-		if(name != null){
-			
-		}
-	%>
-   <a href="ex10_forward.jsp">포워딩</a>
-   
-   <!-- 문제 : 리다이렉트를 finish에 이름 나이 그대로 넘길려면 어떻게? -->
-   
-   <script>
-   	$("a").on("click",function(){
-   		$(this).attr("href", function(index, oldHref){
-   			return `\${oldHref}?name=<%= name%>&age=<%= age%>`;
-   		});
-   	});
-   </script>
+  <form action="ex03_02.jsp">
+  	name : <input type="text" name="name" value="홍길동"><br>
+  	age : <input type="text" name="age" value="20"><br>
+  	<input type="submit" value="Next">
+  </form>
   
 </div>
 </body>

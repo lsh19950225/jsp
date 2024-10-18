@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,41 +26,15 @@
 </header>
 <div>
   <xmp class="code">
-     [포워딩, 리다이렉트 개념 이해]
-     ex10.jsp
-     ex10_forward.jsp
-     ex10_redirect.jsp
-     ex10_finish.jsp
+     1. 부서번호 대분류로 선택
+     2. job을 하위 카테고리로 선택
+     
+     job에 해당되는 사원들을 조회한다.
+     
+     요청 -> 서블릿 포워딩 -> jstl 형태로 사원정보를 출력한다.
   </xmp>
   
-  <%
-  	String name = "admin";
-  	int age = 20;
-  %>
-  
-  <%-- 
-  <a href="ex10_redirect.jsp?name=<%= name%>&age=<%= age%>">리다이렉트</a><br>
-  <a href="ex10_forward.jsp?name=<%= name%>&age=<%= age%>">포워딩</a><br>
-   --%>
-   
-   <a href="ex10_redirect.jsp?name=<%= name %>&age=<%= age %>">리다이렉트</a>
-	<%
-		String location = "ex10_redirect.jsp";
-		if(name != null){
-			
-		}
-	%>
-   <a href="ex10_forward.jsp">포워딩</a>
-   
-   <!-- 문제 : 리다이렉트를 finish에 이름 나이 그대로 넘길려면 어떻게? -->
-   
-   <script>
-   	$("a").on("click",function(){
-   		$(this).attr("href", function(index, oldHref){
-   			return `\${oldHref}?name=<%= name%>&age=<%= age%>`;
-   		});
-   	});
-   </script>
+  <a href="/jspPro/days04/empsearch.htm">부서+잡 사원 검색</a>
   
 </div>
 </body>
