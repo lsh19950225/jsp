@@ -87,7 +87,86 @@ public class BoardDAOImpl implements BoardDAO {
 		// 부서조회() END
 
 		return list;
+		
+	} // select
+	
+	@Override
+	public ArrayList<BoardDTO> select(int currentPage, int numberPerPage) throws SQLException {
+		
+		long seq;
+		String title, writer, email;
+		Date writedate;
+		int readed;
+		
+		ArrayList<BoardDTO> list = null;
+		
+		String sql = " select * "
+				+ "from ( "
+				+ "select rownum no, t.* "
+				+ "from ( "
+				+ "    select seq, title, writer, email, writedate, readed "
+				+ "    from tbl_cstVSBoard "
+				+ "    order by seq desc "
+				+ ") t "
+				+ ") b "
+				+ "where no between ? and ? ";
+		
+		// 부서조회() START
+		BoardDTO dto = null;
+		int start = (currentPage-1)*numberPerPage + 1;
+		int end = start + numberPerPage - 1;
+		int totalRecords = getTotalRecords();
+		if ( end > totalRecords ) {
+			end = totalRecords;
+		}
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+
+				list = new ArrayList<BoardDTO>();
+				do {
+
+					seq = rs.getLong("seq");
+					title = rs.getString("title");
+					writer = rs.getString("writer");
+					email = rs.getString("email");
+					writedate = rs.getDate("writedate");
+					readed = rs.getInt("readed");
+					dto = new BoardDTO().builder()
+							.seq(seq)
+							.title(title)
+							.writer(writer)
+							.email(email)
+							.writedate(writedate)
+							.readed(readed)
+							.build();
+					
+					list.add(dto);
+
+				} while (rs.next());
+
+			} // if
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 부서조회() END
+		
+		return list;
 	}
+
 	
 	@Override
 	   public int insert(BoardDTO dto) throws SQLException {
@@ -110,6 +189,332 @@ public class BoardDAOImpl implements BoardDAO {
 	      this.pstmt.close();
 	      
 	      return rowCount;
-	   }
+	      
+	   } // insert
+	
+	// 조회수 증가
+	@Override
+	public int increaseReaded(long seq) throws SQLException {
+		
+		String sql = " update tbl_cstvsboard "
+	               + " set readed = readed + 1 "
+	               + " where seq = ? ";
+		
+		int rowCount = 0;
+		this.pstmt = this.conn.prepareStatement(sql);
+		this.pstmt.setLong(1, seq);
+		rowCount = this.pstmt.executeUpdate();
+		
+		return rowCount;
+		
+	} // increaseReaded
+	
+	// 부서 조회
+	@Override
+	public BoardDTO view(long seq) throws SQLException {
+		
+		String title, writer, email, content;
+		Date writedate;
+		int readed;
+		
+		ArrayList<BoardDTO> list = null;
+		
+		String sql = " select seq, title, writer, email, writedate, readed, content "
+				+ " from tbl_cstVSBoard "
+				+ " where seq = ? ";
+		
+		// 부서조회() START
+		BoardDTO dto = null;
 
+		try {
+			pstmt = conn.prepareStatement(sql);
+			this.pstmt.setLong(1, seq);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+
+
+					seq = rs.getLong("seq");
+					title = rs.getString("title");
+					writer = rs.getString("writer");
+					email = rs.getString("email");
+					writedate = rs.getDate("writedate");
+					readed = rs.getInt("readed");
+					content = rs.getString("content");
+					dto = new BoardDTO().builder()
+							.seq(seq)
+							.title(title)
+							.writer(writer)
+							.email(email)
+							.writedate(writedate)
+							.readed(readed)
+							.content(content)
+							.build();
+
+			} // if
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 부서조회() END
+		
+		return dto;
+		
+	} // view
+	
+	@Override
+	public int update(BoardDTO dto) throws SQLException {
+		
+		String sql = " update tbl_cstvsboard "
+	               + " set title = ?, content = ?, email = ?, tag = ? "
+	               + " where seq = ? AND pwd = ?";
+		
+		int rowCount = 0;
+		this.pstmt = this.conn.prepareStatement(sql);
+		this.pstmt.setString(1, dto.getTitle());
+		this.pstmt.setString(2, dto.getContent());
+		this.pstmt.setString(3, dto.getEmail());
+		this.pstmt.setInt(4, dto.getTag());
+		this.pstmt.setLong(5, dto.getSeq());
+		this.pstmt.setString(6, dto.getPwd());
+		rowCount = this.pstmt.executeUpdate();
+		
+		return rowCount;
+		
+	} // update
+
+	@Override
+	public String getOriginalPwd(long seq) throws SQLException {
+		
+		String originalPwd = null;
+
+		
+		String sql = " select pwd "
+				+ " from tbl_cstVSBoard "
+				+ " where seq = ? ";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			this.pstmt.setLong(1, seq);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				originalPwd = rs.getString("pwd");
+			} // if
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 부서조회() END
+		
+		return originalPwd;
+		
+	} // getOriginalPwd
+
+	@Override
+	public int delete(long seq) throws SQLException {
+		
+		String sql = " delete "
+	               + " from tbl_cstvsboard "
+	               + " where seq = ? ";
+		
+		int rowCount = 0;
+		this.pstmt = this.conn.prepareStatement(sql);
+		this.pstmt.setLong(1, seq);
+		rowCount = this.pstmt.executeUpdate();
+		
+		return rowCount;
+
+	} // delete
+
+	@Override
+	public int getTotalRecords() throws SQLException {
+		
+		int totalRecords = 0;      
+        String sql = "SELECT COUNT(*) FROM tbl_cstvsboard";
+        this.pstmt = this.conn.prepareStatement(sql);
+        this.rs =  this.pstmt.executeQuery();      
+        if( this.rs.next() ) totalRecords = rs.getInt(1);      
+        this.rs.close();
+        this.pstmt.close();            
+        return totalRecords;
+		
+	} // getTotalRecords
+
+
+	@Override
+	public int getTotalPages(int numberPerPage) throws SQLException {
+		
+		int totalPages = 0;      
+        String sql = "SELECT CEIL(COUNT(*)/?) FROM tbl_cstvsboard";
+        this.pstmt = this.conn.prepareStatement(sql);
+        this.pstmt.setInt(1, numberPerPage);
+        this.rs =  this.pstmt.executeQuery();      
+        if( this.rs.next() ) totalPages = rs.getInt(1);      
+        this.rs.close();
+        this.pstmt.close();            
+        return totalPages;
+        
+	} // getTotalPages
+
+
+	@Override
+	public int getTotalPages(int numberPerPage, String searchCondition, String searchWord) throws SQLException {
+		
+		int totalPages = 0;      
+        String sql = "SELECT CEIL(COUNT(*)/?) "
+        		+ " FROM tbl_cstvsboard ";
+     // 검색조건에 맞는 where절 추가.start
+		switch (searchCondition) {
+		case "t": 
+			sql += " where regexp_like(title, ?, 'i') ";
+			break;
+		case "w": 
+			sql += " where regexp_like(writer, ?, 'i') ";
+			break;
+		case "c": 
+			sql += " where regexp_like(content, ?, 'i') ";
+			break;
+		case "tc": 
+			sql += " where regexp_like(title, ?, 'i') or regexp_like(content, ?, 'i') ";
+			break;
+		}
+		// 검색조건에 맞는 where절 추가.end
+		
+        this.pstmt = this.conn.prepareStatement(sql);
+        this.pstmt.setInt(1, numberPerPage);
+        this.pstmt.setString(2, searchWord);
+        if (searchWord.equals("tc")) {
+			this.pstmt.setString(3, searchWord);
+		}
+        
+        this.rs =  this.pstmt.executeQuery();      
+        if( this.rs.next() ) totalPages = rs.getInt(1);      
+        this.rs.close();
+        this.pstmt.close();            
+        return totalPages;
+		
+	}
+
+	@Override
+	public int getTotalRecords(String searchCondition, String searchWord) throws SQLException {
+		
+		return 0;
+	} // getTotalRecords
+	
+	@Override
+	public ArrayList<BoardDTO> search(String searchCondition, String searchWord, int currentPage, int numberPerPage) throws SQLException {
+		
+		long seq;
+		String title, writer, email;
+		Date writedate;
+		int readed;
+		
+		ArrayList<BoardDTO> list = null;
+		
+		String sql = " select * "
+				+ "from ( "
+				+ "select rownum no, t.* "
+				+ "from ( "
+				+ "    select seq, title, writer, email, writedate, readed "
+				+ "    from tbl_cstVSBoard ";
+				// 검색조건에 맞는 where절 추가.start
+				switch (searchCondition) {
+				case "t": 
+					sql += " where regexp_like(title, ?, 'i') ";
+					break;
+				case "w": 
+					sql += " where regexp_like(writer, ?, 'i') ";
+					break;
+				case "c": 
+					sql += " where regexp_like(content, ?, 'i') ";
+					break;
+				case "tc": 
+					sql += " where regexp_like(title, ?, 'i') or regexp_like(content, ?, 'i') ";
+					break;
+				}
+				// 검색조건에 맞는 where절 추가.end
+				sql += "    order by seq desc "
+				+ ") t "
+				+ ") b "
+				+ "where no between ? and ? ";
+		
+		// 부서조회() START
+		BoardDTO dto = null;
+		int start = (currentPage-1)*numberPerPage + 1;
+		int end = start + numberPerPage - 1;
+		int totalRecords = getTotalRecords();
+		if ( end > totalRecords ) {
+			end = totalRecords;
+		}
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, searchWord);
+			// tc
+			if (searchWord.equals("tc")) {
+				pstmt.setString(2, searchWord);
+				pstmt.setInt(3, start);
+				pstmt.setInt(4, end);
+			} else {
+				pstmt.setInt(2, start);
+				pstmt.setInt(3, end);
+			}
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+
+				list = new ArrayList<BoardDTO>();
+				do {
+
+					seq = rs.getLong("seq");
+					title = rs.getString("title");
+					writer = rs.getString("writer");
+					email = rs.getString("email");
+					writedate = rs.getDate("writedate");
+					readed = rs.getInt("readed");
+					dto = new BoardDTO().builder()
+							.seq(seq)
+							.title(title)
+							.writer(writer)
+							.email(email)
+							.writedate(writedate)
+							.readed(readed)
+							.build();
+					
+					list.add(dto);
+
+				} while (rs.next());
+
+			} // if
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 부서조회() END
+		
+		return list;
+	} // search
+	
 } // class

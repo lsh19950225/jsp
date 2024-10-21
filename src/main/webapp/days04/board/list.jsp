@@ -34,6 +34,20 @@
 
   <h2>목록 보기</h2>
   <a href="<%= contextPath %>/cstvsboard/write.htm">글쓰기</a>
+  <select name="cmbNumberPerPage" id="cmbNumberPerPage">
+  </select>
+  	<script>
+  		for (var i = 10; i <= 50; i+=5) {
+			$("#cmbNumberPerPage").append(`<option>\${i}</opiton>`);
+		} // for
+		
+		$("#cmbNumberPerPage").on("change",function(){
+			let npp = $(this).val();
+			location.href = `/jspPro/cstvsboard/list.htm?numberPerPage=\${npp}`;
+		});
+		
+		$("#cmbNumberPerPage").val("${pvo.numberPerPage}");
+  	</script>
 
   <table>
   	<thead>
@@ -56,7 +70,7 @@
    			<c:forEach items="${list}" var="dto">
    				<tr>
    					<td>${dto.seq}</td>
-   					<td>${dto.title}</td>
+   					<td><a href="<%= contextPath %>/cstvsboard/view.htm?seq=${ dto.seq }">${dto.title}</a></td>
    					<td>${dto.writer}</td>
    					<td>${dto.writedate}</td>
    					<td>${dto.readed}</td>
@@ -67,11 +81,78 @@
    </tbody>
    <tfoot>
    	<tr>
-   		<td colspan="5" align="center">prev [1start] 2 3 4 5 6 7 8 9 10 next</td>
+   		<td colspan="5" align="center">
+   			<!-- prev [1start] 2 3 4 5 6 7 8 9 10 next -->
+   			<div class="pagination">
+   				<c:if test="${pvo.prev}">
+   					<a href="${ pvo.start - 1 }">&lt;</a>
+   				</c:if>
+   				<!-- for(int i=1; i<=10; i++) 와 동일하다. -->
+   				<c:forEach begin="${pvo.start}" end="${pvo.end}" step="1" var="i">
+   					<c:choose>
+   						<c:when test="${i eq pvo.currentPage}">
+   							<a href="#" class="active">${ i }</a>
+   						</c:when>
+   						<c:otherwise>
+   							<a href="${ i }">${ i }</a>
+   						</c:otherwise>
+   					</c:choose>
+   				</c:forEach>
+   				<c:if test="${pvo.next}">
+   					<a href="${ pvo.end +1 }">&gt;</a>
+   				</c:if>
+   			</div>
+   			
+   			<script>
+   				// 페이지
+   				$(".pagination a:not(.active)").attr("href",function(index,oldHref){
+   					let npp = ${pvo.numberPerPage};
+   					let sc = '${param.searchCondition}';
+   					let sw = '${param.searchWord}';
+   					return `/jspPro/cstvsboard/list.htm?currentPage=\${oldHref}&numberPerPage=\${npp}&searchCondition=\${sc}&searchWord=\${sw}`;
+   				});
+   			</script>
+   			
+   		</td>
+   	</tr>
+   	<tr>
+   		<td colspan="5" align="center">
+   			<form method="get">
+            <select name="searchCondition" id="searchCondition">
+             <option value="t"> title</option>
+             <option value="c">content</option>
+             <option value="w"> writer</option>
+             <option value="tc">title+content</option>
+             <%-- 
+             <input type="hidden" name="numberPerPage" value="${pvo.numberPerPage}">
+              --%>
+              <!-- 위와 동일하다. -->
+              <input type="hidden" name="numberPerPage" value="${param.numberPerPage}">
+           </select>
+           <input type="text" name="searchWord" id="searchWord" />
+           <input type="submit" value="search" />
+         </form> 
+   		</td>
    	</tr>
    </tfoot>
   </table>
 
+	<script>
+		// success of fail
+		if (' <%= request.getParameter("write") %>' == 'success') {
+			alert("글쓰기 완료!!");
+		} else if(' <%= request.getParameter("write") %>' == 'fail') {
+			alert("글쓰기 실패!!");
+		} // if
+	</script>
+	
+	<script>
+		// 검색조건, 검색어 상태 유지
+		$("#searchCondition").val('${param.searchCondition}');
+		$("#searchWord").val('${param.searchWord}');
+
+	// 과제 : 타이틀로 검색을하고 2번에 상세로 들어가서 홈을 누르면 검색된 페이지에 2번으로 가야된다.
+	</script>
 </div>
 </body>
 </html>

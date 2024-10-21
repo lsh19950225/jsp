@@ -37,8 +37,8 @@ public class Write extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("Write.doPost()");
 		request.setCharacterEncoding("UTF-8");
+		System.out.println("Write.doPost()");
 		
 		  String writer = request.getParameter("writer");
 	      String pwd = request.getParameter("pwd");

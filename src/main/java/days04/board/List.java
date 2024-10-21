@@ -16,6 +16,7 @@ import com.util.DBConn;
 import days04.board.domain.BoardDTO;
 import days04.board.persistence.BoardDAO;
 import days04.board.persistence.BoardDAOImpl;
+import days04.board.vo.PagingVO;
 
 @WebServlet("/cstvsboard/list.htm")
 public class List extends HttpServlet {
@@ -25,19 +26,60 @@ public class List extends HttpServlet {
         super();
 
     }
-
+    
+    int currentPage = 1; // 현재 페이지 번호
+    int numberPerPage = 10; // 한 페이지에 출력할 게시글 수
+    int numberOfPageBlock = 10; // [1] 2 3 4 5 ... >
+    int totalRecords = 0; // 총 레코드 수
+    int totalPages = 0; // 총 페이지 수
+    
+    // list.htm null == 1페이지
+    // list.htm?currentPage=3
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		System.out.println("List.doGet()");
-		// 1. 로직 처리
-		int currentPage = 1;
 		
+		try {
+			this.currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}catch(Exception e) {
+			this.currentPage = 1;
+		} // try
+		
+		try {
+			this.numberPerPage = Integer.parseInt(request.getParameter("numberPerPage"));
+		}catch(Exception e) {
+			this.numberPerPage = 10;
+		} // try
+		
+		String searchCondition = null;
+		try {
+			searchCondition = request.getParameter("searchCondition");
+		}catch(Exception e) {
+			searchCondition = "title";
+		} // try
+		
+		// 검색어가 없는 경우 null
+		String searchWord = request.getParameter("searchWord");
+		
+		// 1. 로직 처리
 		Connection conn = DBConn.getConnection();
 		BoardDAO dao = new BoardDAOImpl(conn);
 		ArrayList<BoardDTO> list = null;
 		
+		PagingVO pvo = null;
+
 		try {
-			list = dao.select();
+			// 검색어가 없는 경우
+			if (searchWord == null || searchWord.equals("")) {
+				pvo = new PagingVO(currentPage, numberPerPage, numberOfPageBlock);
+				// 페이징 처리 x
+				// list = dao.select();
+				// 페이징 처리 o + 검색 x
+				list = dao.select(this.currentPage, this.numberPerPage);
+			}else {
+				pvo = new PagingVO(currentPage, numberPerPage, numberOfPageBlock, searchCondition, searchWord);
+				list = dao.search(searchCondition, searchWord, currentPage, numberPerPage);
+			} // if
 		} catch (Exception e) {
 			System.out.println("> List.doGet() Exception");
 			e.printStackTrace();
@@ -47,6 +89,7 @@ public class List extends HttpServlet {
 		
 		// 2. 포워딩
 		request.setAttribute("list", list);
+		request.setAttribute("pvo", pvo);
 		
 		String path = "/days04/board/list.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
