@@ -1,8 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	String contextPath = request.getContextPath();
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,44 +22,28 @@
   <ul>
     <li><a href="#">로그인</a></li>
     <li><a href="#">회원가입</a></li>
-    <li><a href="/jspPro/cstvsboard/list.htm">게시판</a></li>
   </ul>
 </header>
 <div>
   <xmp class="code">
-     delete.jsp
+     ex05_04.jsp
+     
+     pageContext 객체
+     	ㄴ JSP 기본 내장 객체를 얻어올 수도 있다.
+     		커스텀 태그(사용자가 만든 태그) 사용
+     		request = pageContext.getRequest();
+     		response = pageContext.getResponse();
+     		out = pageContext.getOut();
+     		application = pageContext.getServletContext();
+     		:
+     	
+     	ㄴ 에러 데이터 구하기
+     	ㄴ 페이지 흐름 제어
+     	ㄴ 속성 처리
+     		page 영역
+     		pageContext.setAttribute();
+     		pageContext.getAttribute();
   </xmp>
-  
-  <h2>삭제하기</h2>
-  <form method="post">
-    <table>
-      <tr>
-        <td colspan="2" align="center">
-          <b>글을 삭제합니다.</b>
-        </td>
-      </tr>
-      <tr>
-        <td>비밀번호</td>
-        <td>
-         <input type="password" name="pwd" size="15" autofocus="autofocus">
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-          <input type="submit" value="삭제">
-          &nbsp;&nbsp;
-          <input type="button" value="취소" id="cancel" onclick="location.href='view.htm?seq=${param.seq}'">
-        </td>
-      </tr>
-    </table>
-  </form>
-  
-  <script>
-  	if('<%= request.getParameter("delete")%>' == "fail"){
-  		alert("비밀번호가 틀립니다.");
-  	} // if
-  </script>
 </div>
-
 </body>
 </html>

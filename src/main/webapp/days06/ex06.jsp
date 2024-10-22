@@ -1,8 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	String contextPath = request.getContextPath();
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,44 +22,26 @@
   <ul>
     <li><a href="#">로그인</a></li>
     <li><a href="#">회원가입</a></li>
-    <li><a href="/jspPro/cstvsboard/list.htm">게시판</a></li>
   </ul>
 </header>
 <div>
   <xmp class="code">
-     delete.jsp
+     ex06.jsp
+     p190 [자바 빈즈(java bean)과 jsp:useBean 액션태그]
+     1. 자바 빈 == 자바 빈즈
+     	ㄴ JSP 웹 어플리케이션에서 정보(하나의 게시글, 회원 등등)를 표현하는 객체
+     	스프링에서는 "스프링 빈" 이라고 한다.
+     					ㄴ DTO, VO
+     서블릿 규약 : 퍼블릭 / httpselvlet / 오버라이딩
+     2. 자바 빈 규약
+     	1) private 필드 선언
+     	2) getter, setter 선언
+     	3) 직렬화가 가능한 클래스 선언
+     3. 자바 빈은 속성, 변경 이벤트, 객체 직렬화하기 위한 표준이다.
+     
+     예) ex06_02.jsp
+     	MemberInfo.java 자바 빈
   </xmp>
-  
-  <h2>삭제하기</h2>
-  <form method="post">
-    <table>
-      <tr>
-        <td colspan="2" align="center">
-          <b>글을 삭제합니다.</b>
-        </td>
-      </tr>
-      <tr>
-        <td>비밀번호</td>
-        <td>
-         <input type="password" name="pwd" size="15" autofocus="autofocus">
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-          <input type="submit" value="삭제">
-          &nbsp;&nbsp;
-          <input type="button" value="취소" id="cancel" onclick="location.href='view.htm?seq=${param.seq}'">
-        </td>
-      </tr>
-    </table>
-  </form>
-  
-  <script>
-  	if('<%= request.getParameter("delete")%>' == "fail"){
-  		alert("비밀번호가 틀립니다.");
-  	} // if
-  </script>
 </div>
-
 </body>
 </html>

@@ -25,6 +25,7 @@
   <ul>
     <li><a href="#">로그인</a></li>
     <li><a href="#">회원가입</a></li>
+    <li><a href="/jspPro/cstvsboard/list.htm">게시판</a></li>
   </ul>
 </header>
 <div>
@@ -70,7 +71,7 @@
    			<c:forEach items="${list}" var="dto">
    				<tr>
    					<td>${dto.seq}</td>
-   					<td><a href="<%= contextPath %>/cstvsboard/view.htm?seq=${ dto.seq }">${dto.title}</a></td>
+   					<td><a class="title" href="<%= contextPath %>/cstvsboard/view.htm?seq=${ dto.seq }">${dto.title}</a></td>
    					<td>${dto.writer}</td>
    					<td>${dto.writedate}</td>
    					<td>${dto.readed}</td>
@@ -148,11 +149,19 @@
 	
 	<script>
 		// 검색조건, 검색어 상태 유지
-		$("#searchCondition").val('${param.searchCondition}');
+		$("#searchCondition").val(
+        '${ empty param.searchCondition ? "t" : param.searchCondition}');
 		$("#searchWord").val('${param.searchWord}');
-
+		
 	// 과제 : 타이틀로 검색을하고 2번에 상세로 들어가서 홈을 누르면 검색된 페이지에 2번으로 가야된다.
 	</script>
+	
+	<script>
+       $("a.title").attr("href", function (index, oldHref){
+          let npp = ${ pvo.numberPerPage };
+          return `\${oldHref}&currentPage=${param.currentPage}&numberPerPage=\${npp}&searchCondition=${searchCondition}&searchWord=${searchWord}`;
+       });
+    </script>
 </div>
 </body>
 </html>

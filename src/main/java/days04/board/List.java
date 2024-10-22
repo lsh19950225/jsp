@@ -18,7 +18,7 @@ import days04.board.persistence.BoardDAO;
 import days04.board.persistence.BoardDAOImpl;
 import days04.board.vo.PagingVO;
 
-@WebServlet("/cstvsboard/list.htm")
+// @WebServlet("/cstvsboard/list.htm")
 public class List extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -90,6 +90,8 @@ public class List extends HttpServlet {
 		// 2. 포워딩
 		request.setAttribute("list", list);
 		request.setAttribute("pvo", pvo);
+		request.setAttribute("searchCondition", searchCondition);
+		request.setAttribute("searchWord", searchWord);
 		
 		String path = "/days04/board/list.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(path);

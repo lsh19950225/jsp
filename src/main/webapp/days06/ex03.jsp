@@ -1,8 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!-- <%-- <% %> --%> 부분 공백을 제거 해준다. -->
+<%@ page trimDirectiveWhitespaces="true" %>
+<!-- 기본값 true : 출력 버퍼가 다 차면 자동으로 응답을 보내겠다. (true 경우) -->
+<%@ page autoFlush="true" %>
+<!-- 출력 버퍼 / 기본 : 8kb -->
+<%@ page buffer="8kb" %>
+<!-- EL 무시할까요? -->
+<%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	String contextPath = request.getContextPath();
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,44 +30,28 @@
   <ul>
     <li><a href="#">로그인</a></li>
     <li><a href="#">회원가입</a></li>
-    <li><a href="/jspPro/cstvsboard/list.htm">게시판</a></li>
   </ul>
 </header>
 <div>
   <xmp class="code">
-     delete.jsp
+     p152 버퍼와 에러 페이지의 관계
   </xmp>
   
-  <h2>삭제하기</h2>
-  <form method="post">
-    <table>
-      <tr>
-        <td colspan="2" align="center">
-          <b>글을 삭제합니다.</b>
-        </td>
-      </tr>
-      <tr>
-        <td>비밀번호</td>
-        <td>
-         <input type="password" name="pwd" size="15" autofocus="autofocus">
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-          <input type="submit" value="삭제">
-          &nbsp;&nbsp;
-          <input type="button" value="취소" id="cancel" onclick="location.href='view.htm?seq=${param.seq}'">
-        </td>
-      </tr>
-    </table>
-  </form>
+  <%
+  	for(int i=1; i<=10000; i++){
+  		out.print("["+i+"]");
+  		if(i==2) out.clearBuffer(); // 비우겠다.
+  		/*
+  		if(i%1000 == 0){ // % : 나머지 구할 때
+  			out.flush(); // 설정한 1kb 가 안되더라도 응답하겠다.
+  		} // if
+  		if(i == 1500){
+  			out.print(1/0); // 이 코딩은 오류가 뜬다.
+  		} // if
+  		*/
+  	} // for
+  %>
   
-  <script>
-  	if('<%= request.getParameter("delete")%>' == "fail"){
-  		alert("비밀번호가 틀립니다.");
-  	} // if
-  </script>
 </div>
-
 </body>
 </html>

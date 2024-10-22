@@ -1,8 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	String contextPath = request.getContextPath();
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,44 +22,29 @@
   <ul>
     <li><a href="#">로그인</a></li>
     <li><a href="#">회원가입</a></li>
-    <li><a href="/jspPro/cstvsboard/list.htm">게시판</a></li>
   </ul>
 </header>
 <div>
   <xmp class="code">
-     delete.jsp
+     p114 [jsp 기본 내장 객체 9가지]
+     1. request : HttpServletRequest : 암기
+     2. response : HttpServletResponse
+     3. out		: JspWriter
+     4. exception : Throwable
+     5. session : HttpSession
+     6. application : ServletContext : 암기
+     		웹 어플리케이션에 대한 정보를 저장하는 객체
+     	ex05_02.jsp
+     	ex05_03.jsp
+     7. pageContext : PageContext == 4가지의 page영역
+     	jsp 페이지에 대한 정보를 저장하는 객체
+     	ex05_04.jsp
+     	
+     8. page		: Object
+     	jsp 페이지 -> 구현한 자바 클래스 인스턴스
+     	
+     9. config 	: servletConfig : 설정 정보를 저장하는 객체
   </xmp>
-  
-  <h2>삭제하기</h2>
-  <form method="post">
-    <table>
-      <tr>
-        <td colspan="2" align="center">
-          <b>글을 삭제합니다.</b>
-        </td>
-      </tr>
-      <tr>
-        <td>비밀번호</td>
-        <td>
-         <input type="password" name="pwd" size="15" autofocus="autofocus">
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-          <input type="submit" value="삭제">
-          &nbsp;&nbsp;
-          <input type="button" value="취소" id="cancel" onclick="location.href='view.htm?seq=${param.seq}'">
-        </td>
-      </tr>
-    </table>
-  </form>
-  
-  <script>
-  	if('<%= request.getParameter("delete")%>' == "fail"){
-  		alert("비밀번호가 틀립니다.");
-  	} // if
-  </script>
 </div>
-
 </body>
 </html>

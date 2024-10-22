@@ -1,8 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	String contextPath = request.getContextPath();
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,44 +22,42 @@
   <ul>
     <li><a href="#">로그인</a></li>
     <li><a href="#">회원가입</a></li>
-    <li><a href="/jspPro/cstvsboard/list.htm">게시판</a></li>
   </ul>
 </header>
 <div>
   <xmp class="code">
-     delete.jsp
+     p140 에러 처리
+     
+     1. jsp 예외 처리 방법
+     	1) try~catch~finally 문 사용
   </xmp>
   
-  <h2>삭제하기</h2>
-  <form method="post">
-    <table>
-      <tr>
-        <td colspan="2" align="center">
-          <b>글을 삭제합니다.</b>
-        </td>
-      </tr>
-      <tr>
-        <td>비밀번호</td>
-        <td>
-         <input type="password" name="pwd" size="15" autofocus="autofocus">
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-          <input type="submit" value="삭제">
-          &nbsp;&nbsp;
-          <input type="button" value="취소" id="cancel" onclick="location.href='view.htm?seq=${param.seq}'">
-        </td>
-      </tr>
-    </table>
-  </form>
+  <!-- 500 : 자바 코딩 오류 -->
   
-  <script>
-  	if('<%= request.getParameter("delete")%>' == "fail"){
-  		alert("비밀번호가 틀립니다.");
-  	} // if
-  </script>
+  <%
+  	String name = null;
+	
+    try{
+    	name = request.getParameter("name");
+        name = name.toUpperCase(); // x
+   %>
+        name = <%= name %>
+   <%
+    }catch(Exception e){
+    	out.println("오류 : name 파라미터 x");
+    }finally{
+    	
+    } // try
+    %>
+    
+  <br />
+  
+  <!-- 404 -> 지정한 예외 처리 페이지로 응답할 수 있다. -->
+  <a href="ex1000.jsp">ex1000.jsp</a>
+  <br />
+  <a href="ex1001.jsp">ex1001.jsp</a>
+  <br />
+  
 </div>
-
 </body>
 </html>

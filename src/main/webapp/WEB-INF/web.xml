@@ -24,4 +24,48 @@
   	<url-pattern>/hello</url-pattern> x
   </servlet-mapping> -->
   
+  <!-- 에러 페이지 방법들 주석 처리
+   <error-page>
+  	<error-code>404</error-code>
+  	<location>/WEB-INF/error/404.jsp</location>
+  </error-page>
+  
+  <error-page>
+  	<exception-type>java.lang.NullPointerException</exception-type>
+  	<location>/WEB-INF/error/nullPointer.jsp</location>
+  </error-page>
+   -->
+   
+   <!-- 
+   <jsp-config>
+   		<jsp-property-group>
+   			<url-pattern>/days01/*</url-pattern>
+   			제일 상단에 삽입하겠다.
+   			<include-prelude>/WEB-INF/inc/variable.jspf</include-prelude>
+   			제일 하단에 삽입하겠다.
+   			<include-coda>/WEB-INF/inc/footer.jspf</include-coda>
+   		</jsp-property-group>
+   </jsp-config>
+    -->
+    
+    <!-- 
+    웹 사이트 전체 페이지에서 사용할 공통 환경 설정값을 초기화
+    application 객체를 사용하고 그 안에 있는 메서드() 를 사용한다.
+     -->
+     <context-param>
+     	<description>DB 사용자 계정</description>
+     	<param-name>user</param-name>
+     	<param-value>scott</param-value>
+     </context-param>
+     <context-param>
+     	<description>DB 비밀번호</description>
+     	<param-name>password</param-name>
+     	<param-value>ss123$</param-value>
+     </context-param>
+     <context-param>
+     	<description>파일 경로</description>
+     	<param-name>path</param-name>
+     	<param-value>/days06</param-value>
+     </context-param>
+  
 </web-app>

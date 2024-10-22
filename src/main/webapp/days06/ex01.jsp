@@ -1,8 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	String contextPath = request.getContextPath();
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,44 +22,29 @@
   <ul>
     <li><a href="#">로그인</a></li>
     <li><a href="#">회원가입</a></li>
-    <li><a href="/jspPro/cstvsboard/list.htm">게시판</a></li>
   </ul>
 </header>
 <div>
   <xmp class="code">
-     delete.jsp
+     days06.ex01.jsp
+     p132 jsp 기본 객체와 영역
+     
+     1. 하나의 웹페이지에서 사용할 수 있는 4가지 영역(Scope)
+     									JSP 내장된 9가지 객체
+     	: PAGE 영역					- pageContext 객체 : 새 페이지가 생성될 때
+     	: REQUEST 영역			- request 객체 : 포워딩
+     	: SESSION 영역				- session 객체 : 접속이 끊어질 때
+     	: APPLICATION 영역		- application 객체 : 서버가 죽을 때
+     	
+     2. 메서드
+     	setAttribute()
+     	getAttribute()
+     	removeAttribute()
+     	getAttributeNames()
+     	
+     	예) ex01_02.jsp
+     	예) ex01_03.jsp
   </xmp>
-  
-  <h2>삭제하기</h2>
-  <form method="post">
-    <table>
-      <tr>
-        <td colspan="2" align="center">
-          <b>글을 삭제합니다.</b>
-        </td>
-      </tr>
-      <tr>
-        <td>비밀번호</td>
-        <td>
-         <input type="password" name="pwd" size="15" autofocus="autofocus">
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-          <input type="submit" value="삭제">
-          &nbsp;&nbsp;
-          <input type="button" value="취소" id="cancel" onclick="location.href='view.htm?seq=${param.seq}'">
-        </td>
-      </tr>
-    </table>
-  </form>
-  
-  <script>
-  	if('<%= request.getParameter("delete")%>' == "fail"){
-  		alert("비밀번호가 틀립니다.");
-  	} // if
-  </script>
 </div>
-
 </body>
 </html>

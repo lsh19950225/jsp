@@ -1,8 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	String contextPath = request.getContextPath();
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,44 +22,41 @@
   <ul>
     <li><a href="#">로그인</a></li>
     <li><a href="#">회원가입</a></li>
-    <li><a href="/jspPro/cstvsboard/list.htm">게시판</a></li>
   </ul>
 </header>
 <div>
   <xmp class="code">
-     delete.jsp
+     ex06_02.jsp
   </xmp>
   
-  <h2>삭제하기</h2>
-  <form method="post">
-    <table>
-      <tr>
-        <td colspan="2" align="center">
-          <b>글을 삭제합니다.</b>
-        </td>
-      </tr>
-      <tr>
-        <td>비밀번호</td>
-        <td>
-         <input type="password" name="pwd" size="15" autofocus="autofocus">
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-          <input type="submit" value="삭제">
-          &nbsp;&nbsp;
-          <input type="button" value="취소" id="cancel" onclick="location.href='view.htm?seq=${param.seq}'">
-        </td>
-      </tr>
-    </table>
-  </form>
-  
-  <script>
-  	if('<%= request.getParameter("delete")%>' == "fail"){
-  		alert("비밀번호가 틀립니다.");
-  	} // if
-  </script>
-</div>
+  <form action="ex06_05.jsp" method="get">
 
+  <table border="1" style="width:400px">
+     <tr>
+        <td>아이디</td>
+        <td><input type="text"  name="id" value="admin"></td>
+     </tr>
+     <tr>
+        <td>이름</td>
+        <td><input type="text"  name="name"  value="관리자"></td>
+     </tr>
+     <tr>
+        <td>비밀번호</td>
+        <td><input type="password"  name="passwd" value="1234"></td>
+     </tr>
+     <tr>
+        <td>이메일</td>
+        <td><input type="text"  name="email" value="admin@naver.com"></td>
+     </tr>
+     <tr>
+        <td colspan="2">
+           <input type="submit">
+           <input type="reset">
+        </td>
+     </tr>
+  </table>
+</form>
+  
+</div>
 </body>
 </html>

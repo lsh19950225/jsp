@@ -1,8 +1,7 @@
+<%@page import="java.util.Date"%>
+<%@page import="days06.MemberInfo"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	String contextPath = request.getContextPath();
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,44 +24,42 @@
   <ul>
     <li><a href="#">로그인</a></li>
     <li><a href="#">회원가입</a></li>
-    <li><a href="/jspPro/cstvsboard/list.htm">게시판</a></li>
   </ul>
 </header>
 <div>
   <xmp class="code">
-     delete.jsp
+     ex06_03.jsp
+     
+     ex06_02.jsp 파라미터로 받아서 출력을 한다.
   </xmp>
   
-  <h2>삭제하기</h2>
-  <form method="post">
-    <table>
-      <tr>
-        <td colspan="2" align="center">
-          <b>글을 삭제합니다.</b>
-        </td>
-      </tr>
-      <tr>
-        <td>비밀번호</td>
-        <td>
-         <input type="password" name="pwd" size="15" autofocus="autofocus">
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-          <input type="submit" value="삭제">
-          &nbsp;&nbsp;
-          <input type="button" value="취소" id="cancel" onclick="location.href='view.htm?seq=${param.seq}'">
-        </td>
-      </tr>
-    </table>
-  </form>
+  <%
+  	String id = request.getParameter("id");
+  	String name = request.getParameter("name");
+  	String passwd = request.getParameter("passwd");
+  	String email = request.getParameter("email");
+  	
+  	MemberInfo mi = new MemberInfo();
+  	mi.setId(id);
+  	mi.setName(name);
+  	mi.setPasswd(passwd);
+  	mi.setEmail(email);
+  	mi.setRegisterDate(new Date());
+  %>
   
-  <script>
-  	if('<%= request.getParameter("delete")%>' == "fail"){
-  		alert("비밀번호가 틀립니다.");
-  	} // if
-  </script>
+  아이디 : <%= mi.getId() %><br />
+  이름 : <%= mi.getName() %><br />
+  비밀번호 : <%= mi.getPasswd() %><br />
+  이메일 : <%= mi.getEmail() %><br />
+  등록일 : <%= mi.getRegisterDate() %><br />
+  
+  <%-- 
+  아이디 : <%= id %><br />
+  이름 : <%= name %><br />
+  비밀번호 : <%= passwd %><br />
+  이메일 : <%= email %><br />
+   --%>
+  
 </div>
-
 </body>
 </html>

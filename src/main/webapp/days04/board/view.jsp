@@ -36,6 +36,7 @@ span.material-symbols-outlined {
 		<ul>
 			<li><a href="#">로그인</a></li>
 			<li><a href="#">회원가입</a></li>
+			<li><a href="/jspPro/cstvsboard/list.htm">게시판</a></li>
 		</ul>
 	</header>
 	<div>
@@ -71,7 +72,7 @@ span.material-symbols-outlined {
 					<td colspan="4" align="center">
 						<a href="<%= contextPath %>/cstvsboard/edit.htm?seq=${ dto.seq }">수정하기</a>
 						<a href="<%= contextPath %>/cstvsboard/delete.htm?seq=${ dto.seq }">삭제하기</a>
-						<a href="">Home</a>
+						<a href="<%= contextPath %>/cstvsboard/list.htm">Home</a>
 						<input type="button" id="btnModalDelete" value="모달창 삭제">
 					</td>
 				</tr>
@@ -137,7 +138,21 @@ span.material-symbols-outlined {
 			dialog.dialog( "open" );
 			$("#spn").show().slideToggle(3000);
 		} // if
+		
+		// Home 버튼 클릭시
+		$("tfoot a:last-of-type").attr("href", function (index, oldHref){
+		     return `\${oldHref}?currentPage=${param.currentPage}&numberPerPage=${param.numberPerPage}&searchCondition=${param.searchCondition}&searchWord=${param.searchWord}`;
+		});
 	</script>
 	
 </body>
 </html>
+
+<%-- 이것도 가능하다.
+ View.java 에 request.setAttribute("referer", referer); 
+넣고
+view.jsp 에 <a href="${referer}">Home</a>  
+이렇게 줬는데 이렇게 해도 될까요
+단, 우리가 취소를 할 때 history back 를 사용했기 때문에 가능하다.
+만약 다른 서블릿을 거친다면, referer에 저장된 url이 바뀌기 때문에 조치가 필요하다.
+ --%>
