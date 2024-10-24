@@ -24,7 +24,8 @@ public class Write extends HttpServlet {
         super();
 
     }
-
+    
+    // 글쓰기 버튼 클릭
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		System.out.println("Write.doGet()");
@@ -34,7 +35,8 @@ public class Write extends HttpServlet {
 		dispatcher.forward(request, response);
 		
 	} // doGet
-
+	
+	// 작성 완료 버튼 클릭
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
