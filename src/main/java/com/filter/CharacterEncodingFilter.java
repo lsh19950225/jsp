@@ -29,7 +29,7 @@ public class CharacterEncodingFilter implements Filter{
 			throws IOException, ServletException {
 		
 		System.out.println("> CharacterEncodingFilter.doFilter()");
-		request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding(encoding);
 		
 		// 다음 필터한테 넘긴다. / 최종일수도 있다.
 		// 필터는 등록하는 순서대로 필터가 된다. *** 순서대로
