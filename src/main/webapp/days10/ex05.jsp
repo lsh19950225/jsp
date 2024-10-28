@@ -27,33 +27,36 @@
 </header>
 <div>
   <xmp class="code">
+     ex05.jsp
      
+     서블릿 3.0 또는 3.1 에서 제공하는 라이브러리
+     
+     /jspPro/days10/upload => UploadServlet.java + web.xml 설정
+     										파일업로드 처리
+     web.wml -> web_days09.xml
   </xmp>
   
-  <a href="ex01_02.jsp?lat=37.499294&lng=127.0331883">(주)쌍용교육센터</a>
-  <br>
-  <div id="googleMap" style="width: 100%;height:400px"></div>
+  <form action="/jspPro/days10/upload" method="post" enctype="multipart/form-data">
+     메시지 : <input type="text" name="msg" value="Hello World~" /><br>
+     <button type="button">첨부파일 추가</button>
+     <div id="filebox">
+     첨부파일1 : <input type="file" name="file1" /><br>
+     </div>
+     
+     
+     <input type="submit" />
+  </form>
   
-</div>
-
-<script>
-  function myMap() {
-     var mapOptions = {
-           center:new google.maps.LatLng(51.508742, -0.120850)
-             , zoom: 5
-     };
-     var map = new google.maps.Map( 
-           document.getElementById("googleMap") 
-           , mapOptions);
-  }
-</script>
-																		<!-- 여기에 키값 받아서 넣으면 된다. -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCygZLFcQgVppMv9sxAQ4UStANJhRQUITg&callback=myMap"></script>
-
-<!-- Maps JavaScript API 검색
-구글 지도 API 키 발급 받는 방법 (Maps JavaScript API)
-https://blog.cosmosfarm.com/archives/389/%EA%B5%AC%EA%B8%80-%EC%A7%80%EB%8F%84-api-%ED%82%A4-%EB%B0%9C%EA%B8%89-%EB%B0%9B%EB%8A%94-%EB%B0%A9%EB%B2%95-maps-javascript-api/
- -->
+  <script>
+     $(function(){
+        $("button").on("click",function(){
+           let no = $("#filebox :file").length + 1; // no = 2
+           $("#filebox").append(
+            `첨부파일 \${no} : <input type="file" name="file\${no}" /><br>`
+         )
+        })
+     })
+  </script>
   
 </div>
 </body>

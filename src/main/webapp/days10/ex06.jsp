@@ -27,33 +27,37 @@
 </header>
 <div>
   <xmp class="code">
+     ex06.jsp
      
+    파일첨부 1개 +  게시글 -> [자료실] 구현
+                    제목    
+    1. 테이블 , 시퀀스 생성
+    create table filetest(          
+     num number not null primary key  
+     , subject varchar2(50) not null     
+     
+     , filesystemname varchar2(100) -- 실제 저장되는 파일명       a1.txt
+     , originalfilename varchar2(100) -- 저장할 때 파일명             a.txt
+     , filelength number  -- 파일크기
+    );
+    
+   create sequence seq_filetest;   
+   
+   MVC 비슷하게 개념... ~    
+   
+   실습)
+      days09 패키지
+         ㄴFileTestDTO.java                         
+         ㄴFileTestDAO.java                        
+         ㄴFileTestServlet.java          -- Controller 모든 요청 처리
+      days09 폴더
+         ㄴ ex06_list.jsp                  list.ss
+         ㄴ ex06_write.jsp                 write.ss                
+         ㄴ ex06_update.jsp                update.ss  
   </xmp>
   
-  <a href="ex01_02.jsp?lat=37.499294&lng=127.0331883">(주)쌍용교육센터</a>
+  <a href="/jspPro/days10/list.ss">자료실 목록보기</a>
   <br>
-  <div id="googleMap" style="width: 100%;height:400px"></div>
-  
-</div>
-
-<script>
-  function myMap() {
-     var mapOptions = {
-           center:new google.maps.LatLng(51.508742, -0.120850)
-             , zoom: 5
-     };
-     var map = new google.maps.Map( 
-           document.getElementById("googleMap") 
-           , mapOptions);
-  }
-</script>
-																		<!-- 여기에 키값 받아서 넣으면 된다. -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCygZLFcQgVppMv9sxAQ4UStANJhRQUITg&callback=myMap"></script>
-
-<!-- Maps JavaScript API 검색
-구글 지도 API 키 발급 받는 방법 (Maps JavaScript API)
-https://blog.cosmosfarm.com/archives/389/%EA%B5%AC%EA%B8%80-%EC%A7%80%EB%8F%84-api-%ED%82%A4-%EB%B0%9C%EA%B8%89-%EB%B0%9B%EB%8A%94-%EB%B0%A9%EB%B2%95-maps-javascript-api/
- -->
   
 </div>
 </body>

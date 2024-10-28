@@ -1,3 +1,5 @@
+<%@page import="java.io.DataInputStream"%>
+<%@page import="java.util.Enumeration"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page trimDirectiveWhitespaces="true" %>
@@ -27,33 +29,28 @@
 </header>
 <div>
   <xmp class="code">
-     
+     ex02_ok_02.jsp
   </xmp>
   
-  <a href="ex01_02.jsp?lat=37.499294&lng=127.0331883">(주)쌍용교육센터</a>
-  <br>
-  <div id="googleMap" style="width: 100%;height:400px"></div>
+  <%
+   out.print("> 전송된 헤더 정보 출력<br>");
+   Enumeration<String> en = request.getHeaderNames();
+   while(en.hasMoreElements()){
+	   String key = en.nextElement();
+	   String value = request.getHeader(key);
+	   out.print(key + " : " + value + "<br>");
+   }
+  %>
   
-</div>
-
-<script>
-  function myMap() {
-     var mapOptions = {
-           center:new google.maps.LatLng(51.508742, -0.120850)
-             , zoom: 5
-     };
-     var map = new google.maps.Map( 
-           document.getElementById("googleMap") 
-           , mapOptions);
-  }
-</script>
-																		<!-- 여기에 키값 받아서 넣으면 된다. -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCygZLFcQgVppMv9sxAQ4UStANJhRQUITg&callback=myMap"></script>
-
-<!-- Maps JavaScript API 검색
-구글 지도 API 키 발급 받는 방법 (Maps JavaScript API)
-https://blog.cosmosfarm.com/archives/389/%EA%B5%AC%EA%B8%80-%EC%A7%80%EB%8F%84-api-%ED%82%A4-%EB%B0%9C%EA%B8%89-%EB%B0%9B%EB%8A%94-%EB%B0%A9%EB%B2%95-maps-javascript-api/
- -->
+  <%
+   out.print("> 전송된 스트림 정보 출력<br>");
+   ServletInputStream sis = request.getInputStream();
+   DataInputStream dis = new DataInputStream(sis);
+   String line = "";
+   while( (line = dis.readLine()) != null ){
+	   out.print( new String( line.getBytes("ISO-8859-1"), "UTF-8" ) + "<br>" );
+   } // while
+  %>
   
 </div>
 </body>

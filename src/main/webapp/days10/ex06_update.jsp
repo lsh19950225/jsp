@@ -27,33 +27,35 @@
 </header>
 <div>
   <xmp class="code">
-     
+     ex06_update.jsp
   </xmp>
   
-  <a href="ex01_02.jsp?lat=37.499294&lng=127.0331883">(주)쌍용교육센터</a>
-  <br>
-  <div id="googleMap" style="width: 100%;height:400px"></div>
-  
-</div>
-
-<script>
-  function myMap() {
-     var mapOptions = {
-           center:new google.maps.LatLng(51.508742, -0.120850)
-             , zoom: 5
-     };
-     var map = new google.maps.Map( 
-           document.getElementById("googleMap") 
-           , mapOptions);
-  }
-</script>
-																		<!-- 여기에 키값 받아서 넣으면 된다. -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCygZLFcQgVppMv9sxAQ4UStANJhRQUITg&callback=myMap"></script>
-
-<!-- Maps JavaScript API 검색
-구글 지도 API 키 발급 받는 방법 (Maps JavaScript API)
-https://blog.cosmosfarm.com/archives/389/%EA%B5%AC%EA%B8%80-%EC%A7%80%EB%8F%84-api-%ED%82%A4-%EB%B0%9C%EA%B8%89-%EB%B0%9B%EB%8A%94-%EB%B0%A9%EB%B2%95-maps-javascript-api/
- -->
+  <h2>글수정</h2>
+   <form 
+      action="update_ok.ss" 
+      method="post" enctype="multipart/form-data">
+      <table border="1" align="center">
+         <tr>
+            <td>subject</td>
+            <td><input type="text" name="subject" value="${ dto.subject }" /></td>
+         </tr>
+         <tr>
+            <td>attach file</td>
+            <td>
+              <input type="file" name="attachFile" />
+              <input type="text" name="filesystemname" 
+              value="${ dto.filesystemname }">
+            </td>
+         </tr>
+         <tr>
+            <td colspan="2">
+              <input type="submit" />
+              <input type="hidden" name="num" value="${dto.num}">
+              <a href="list.ss" >Home</a>
+            </td>
+         </tr>
+      </table>
+   </form>
   
 </div>
 </body>
