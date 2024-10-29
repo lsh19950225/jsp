@@ -46,6 +46,7 @@
       , lat number
       , address varchar2(255)  --식당 주소
    );      
+   <!--  -->
   </xmp>
 </div>
 </body>
