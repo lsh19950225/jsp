@@ -75,7 +75,6 @@
          '<br>Longitude: '   + location.lng()
       });
       infowindow.open(map, marker);
-      /*  */
    }
 </script>
 <script   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCygZLFcQgVppMv9sxAQ4UStANJhRQUITg&callback=myMap"></script>

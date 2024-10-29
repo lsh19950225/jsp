@@ -27,7 +27,6 @@
 </header>
 <div>
   <xmp class="code">
-  <!--  -->
        ex02.jsp   
    *** 3. 로직 이해...*** 
    [DB]

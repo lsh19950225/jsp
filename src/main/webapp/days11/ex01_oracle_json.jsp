@@ -29,7 +29,6 @@
   <span class="material-symbols-outlined">view_list</span> jsp days00
 </h3>
 <div>
-<!--  -->
   <xmp class="code">  
   </xmp> 
   <a href="ex01_oracle_input.jsp">맛집 등록</a>

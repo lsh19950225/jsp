@@ -47,5 +47,4 @@ try{
 <script>
    alert("DB 에 저장 후 이동 - <%= result %>");
    location.href="ex01_oracle_json.jsp";
-   /*  */
 </script>  

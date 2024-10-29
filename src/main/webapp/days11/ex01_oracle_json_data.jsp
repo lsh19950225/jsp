@@ -31,7 +31,6 @@
        double lng = rs.getDouble("lng");
        double lat = rs.getDouble("lat");
        String address = rs.getString("address"); 
-       /*  */
      
        // {맛집정보}
        JSONObject   jsonObject = new JSONObject();
